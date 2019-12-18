@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ajsx基本请求</title>
+</head>
+<body>
+	<button id="btn">获取数据</button>
+</body>
+<script>
+	//请求方式,请求地址,参数(post发送的参数),成功时的函数,失败时的函数
+	function ajax(method,url,data,fnSucc,fnFail){
+		//第一步(拿到电话) 创建XMLHttpRequire对象
+		let oAjax;
+		if (window.XMLHttpRequest){
+		    oAjax=new XMLHttpRequest();  // code for IE7+, Firefox, Chrome, Opera, Safari
+		}else{
+		  oAjax=new ActiveXObject("Microsoft.XMLHTTP"); // code for IE6, IE5
+		}
+		if(method.toUpperCase() == 'POST'){
+			//第二步(拨号)
+			oAjax.open('POST',url,true)
+			//设置请求头
+			oAjax.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+			//第三步(拨出)
+			oAjax.send(data)
+		}else if(method.toUpperCase() == 'GET'){
+			//第二步(拨号)
+			if(data){
+				url += '?' +data
+			}
+			oAjax.open('GET',url,true)
+			//第三步(拨出)
+			oAjax.send()
+		}
+		//第四步(等待回应)
+		//监听oAjax上的onreadystatechange事件
+		oAjax.onreadystatechange=function(){
+			//readyState == 4即表示数据完全返回
+			if(oAjax.readyState == 4){
+				//成功时
+				try{
+					if(oAjax.status == 200){
+						var obj = JSON.parse(oAjax.responseText);
+						//只有当fnSucc为函数时执行
+						typeof fnSucc == 'function' && fnSucc(obj);
+					}
+				}catch(e){  //失败时
+					typeof fnFail == 'function' && fnFail(e);
+				}
+			}
+		}
+	}
+	const oBtn = document.getElementById('btn');
+	oBtn.onclick=function(){
+		ajax('GET',
+			'http://127.0.0.1:3001',
+			'name=tom',
+			function(obj){
+			   console.log("数据:",obj);
+		    },
+		    function(err){
+		    	console.log('失败:',err);
+		    }
+		)
+	}
+</script>
+</html>

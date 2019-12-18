@@ -1,12 +1,20 @@
 /*
     1.搭建一个基本的服务器
-    2.读取本地资源文件
+    2.读取本地资源文件(*)
 */
 const http = require('http')
 const fs = require('fs')
+// console.log(http)
 
 const server = http.createServer(function(req,res){
-	console.log(req.method)
+	/* //基本服务器
+	//改变状态码
+	res.statusCode = 200;
+	//向前台返回内容
+	res.end('Hello World\n')
+	// console.log(server)
+	*/
+	// console.log(req.url)
 	const urlStr = req.url
 	if(urlStr == './favicon.ico'){
 		res.end('favicon.ico')

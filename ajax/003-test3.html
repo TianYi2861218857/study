@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ajsx基本请求</title>
+</head>
+<body>
+	<button id="btn">获取数据</button>
+</body>
+<script>
+	const oBtn = document.getElementById('btn');
+	oBtn.onclick=function(){
+		//第一步(拿到电话) 创建XMLHttpRequire对象
+		let oAjax;
+		if (window.XMLHttpRequest){
+		    oAjax=new XMLHttpRequest();  // code for IE7+, Firefox, Chrome, Opera, Safari
+		}else{
+		  oAjax=new ActiveXObject("Microsoft.XMLHTTP"); // code for IE6, IE5
+		}
+		//第二步(拨号)
+		oAjax.open('POST','http://127.0.0.1:3001/',true)
+		//设置请求头
+		oAjax.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+		//第三步(拨出)
+		oAjax.send('{"name":"echo","age":18}')
+		//第四步(等待回应)
+		//监听oAjax上的onreadystatechange事件
+		oAjax.onreadystatechange=function(){
+			//readyState == 4即表示数据完全返回
+			if(oAjax.readyState == 4){
+				//200代表成功,数据对象在oAjax对象.responseText中
+				if(oAjax.status == 200){
+					const obj = JSON.parse(oAjax.responseText)
+					console.log(oAjax.responseText)
+					console.log("obj",obj)
+				}
+			}
+		}
+	}
+</script>
+</html>
