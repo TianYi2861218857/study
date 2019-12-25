@@ -20,11 +20,20 @@
 </body>
 <script>
 	window.onload=function(){
-		alert("欢迎您来到XXX!")
+		alert("你好,我是你的宠物XXX!")
 	}
 	var iRock = document.getElementById('rockImg');
-	iRock.onclick =function(){
-		alert("欢迎您来到XXX!")
+	function touchRock(){
+		//prompt(obj1,obj2) 弹出可输入内容的提示框,obj1是提示内容,obj2是输入框的提示内容
+		var userName = prompt("What is your name?","Enter your name here.");
+		if(userName){
+			alert("It is good to meet you,"+userName+".");
+			iRock.src = "images/iRock.png"
+		}
 	}
+	iRock.onclick =function(){
+		touchRock();
+	}
+
 </script>
 </html>
